@@ -18,9 +18,8 @@ while read col;
 do
     if [ $column == $col ]
     then
-        echo "$i"
         awk -v n="$i" -F, '{print $n}' $filename | sed "s/$entry/$param/g" >> temp2.txt
-        awk -v n="$i" -F, 'FNR==NR{array[NR]=$1;next}{$n=array[FNR]}{print $1","$2","$3}' temp2.txt $filename >> temp3.txt
+        awk -v n="$i" -F, 'BEGIN{OFS=","};FNR==NR{array[NR]=$1;next}{$n=array[FNR]}{print $0}' temp2.txt $filename >> temp3.txt
         cat temp3.txt > $filename
     fi
     i=$((i+1))
